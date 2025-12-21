@@ -1,58 +1,74 @@
 {
-    "transactions": [
-        {
-            "id": 1,
-            "amount": 100,
-            "type": "Expense",
-            "description": "Restaurant",
-            "category": "Food",
-            "created_at": "2023-03-10T04:23:17.000Z"
-        },
-        {
-            "id": 2,
-            "amount": 159,
-            "type": "Expense",
-            "description": "Gas",
-            "category": "Car",
-            "created_at": "2023-03-10T11:05:42.000Z"
-        },
-        {
-            "id": 3,
-            "amount": 100,
-            "type": "Income",
-            "description": "Salary",
-            "category": "",
-            "created_at": "2023-03-10T19:54:09.000Z"
-        },
-        {
-            "id": 4,
-            "amount": 79,
-            "type": "Expense",
-            "description": "Rent",
-            "category": "Housing",
-            "created_at": "2024-01-05T22:13:55.000Z"
-        }
-    ],
-    "trends": [
-        {
-            "id": "Income",
-            "amount": 7000,
-            "prevAmount": 3000
-        },
-        {
-            "id": "Expense",
-            "amount": 4000,
-            "prevAmount": 3000
-        },
-        {
-            "id": "Saving",
-            "amount": 3000,
-            "prevAmount": 3000
-        },
-        {
-            "id": "Investment",
-            "amount": 2000,
-            "prevAmount": 3000
-        }
-    ]
+  "transactions": [
+    {
+      "id": "1",
+      "amount": 100,
+      "type": "Expense",
+      "description": "Restaurant",
+      "category": "Food",
+      "created_at": "2023-03-10T04:23:17.000Z"
+    },
+    {
+      "id": "2",
+      "amount": 159,
+      "type": "Expense",
+      "description": "Gas",
+      "category": "Car",
+      "created_at": "2023-03-10T11:05:42.000Z"
+    },
+    {
+      "id": "3",
+      "amount": 100,
+      "type": "Income",
+      "description": "Salary",
+      "category": "",
+      "created_at": "2023-03-10T19:54:09.000Z"
+    },
+    {
+      "id": "4",
+      "amount": 79,
+      "type": "Expense",
+      "description": "Rent",
+      "category": "Housing",
+      "created_at": "2024-01-05T22:13:55.000Z"
+    },
+    {
+      "id": "2947",
+      "type": "Investment",
+      "category": "Housing",
+      "amount": 1000,
+      "description": "Education",
+      "created_at": "2025-12-22T18:30:00.000Z"
+    },
+    {
+      "id": "00a3",
+      "type": "Expense",
+      "category": "Housing",
+      "amount": 3000,
+      "description": "rent",
+      "created_at": "2025-11-18T18:30:00.000Z"
+    }
+  ],
+  "trends": [
+    {
+      "id": "Income",
+      "amount": 7000,
+      "prevAmount": 3000
+    },
+    {
+      "id": "Expense",
+      "amount": 4000,
+      "prevAmount": 3000
+    },
+    {
+      "id": "Saving",
+      "amount": 3000,
+      "prevAmount": 3000
+    },
+    {
+      "id": "Investment",
+      "amount": 2000,
+      "prevAmount": 3000
+    }
+  ]
 }
