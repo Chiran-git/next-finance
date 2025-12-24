@@ -10,7 +10,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {transactionSchema} from "@/lib/validation";
 import {useState} from "react";
 import { useRouter } from "next/navigation";
-import { purgeTransactionListCache } from "@/lib/actions";
+import { createTransaction, purgeTransactionListCache } from "@/lib/actions";
 import FormError from "@/components/form-error";
 
 export default function TransactionForm() {
@@ -22,18 +22,19 @@ export default function TransactionForm() {
     }
         = useForm({
         mode: "unTouched",
-        resolver: zodResolver(transactionSchema)
+        //resolver: zodResolver(transactionSchema)
     });
 
     const router = useRouter();
 
     const [isSaving, setSaving] = useState(false);
+    const [lastError, setLastError] = useState();
 
     const onSubmit = async (data) => {
         setSaving(true);
 
         try {
-            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/transactions`, {
+            /*await fetch(`${process.env.NEXT_PUBLIC_API_URL}/transactions`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -44,8 +45,11 @@ export default function TransactionForm() {
                 })
             });
 
-            await purgeTransactionListCache();
+            await purgeTransactionListCache();*/
+            await createTransaction(data);
             router.push('/dashboard');
+        } catch (error) {
+            setLastError(error);
         } finally {
             setSaving(false);
         }
@@ -87,7 +91,10 @@ export default function TransactionForm() {
                     <Input {...register("description")} />
                     <FormError error={errors.description} />
                 </div>
-                <div className="md:col-span-2 flex justify-end">
+                <div className="md:col-span-2 flex justify-between">
+                    <div>
+                        {lastError && <FormError error={lastError} />}
+                    </div>
                     <Button type="submit" disabled={isSaving}>Save</Button>
                 </div>
             </div>
