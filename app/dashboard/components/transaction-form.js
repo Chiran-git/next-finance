@@ -1,102 +1,105 @@
 "use client";
-
+import Button from "@/components/button";
+import Input from "@/components/input";
 import Label from "@/components/label";
 import Select from "@/components/select";
-import {categories, types} from "@/lib/consts";
-import Input from "@/components/input";
-import Button from "@/components/button";
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {transactionSchema} from "@/lib/validation";
-import {useState} from "react";
+import { categories, types } from "@/lib/consts";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { transactionSchema } from "@/lib/validation";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createTransaction, purgeTransactionListCache } from "@/lib/actions";
+import { createTransaction } from "@/lib/actions";
 import FormError from "@/components/form-error";
 
 export default function TransactionForm() {
-    const {
-        register,
-        handleSubmit,
-        watch,
-        formState: {errors}
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    mode: "onTouched",
+    resolver: zodResolver(transactionSchema),
+  });
+  const router = useRouter();
+  const [isSaving, setSaving] = useState(false);
+  const [lastError, setLastError] = useState();
+  const type = watch("type");
+
+  const onSubmit = async (data) => {
+    console.log(data);
+    return;
+    setSaving(true);
+    setLastError();
+    try {
+      await createTransaction(data);
+      router.push("/dashboard");
+    } catch (error) {
+      setLastError(error);
+    } finally {
+      setSaving(false);
     }
-        = useForm({
-        mode: "unTouched",
-        //resolver: zodResolver(transactionSchema)
-    });
+  };
 
-    const router = useRouter();
+  return (
+    <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <Label className="mb-1">Type</Label>
+          <Select
+            {...register("type", {
+              onChange: (e) => {
+                if (e.target.value !== "Expense") {
+                  setValue("category", "");
+                }
+              },
+            })}
+          >
+            {types.map((type) => (
+              <option key={type}>{type}</option>
+            ))}
+          </Select>
+          <FormError error={errors.type} />
+        </div>
 
-    const [isSaving, setSaving] = useState(false);
-    const [lastError, setLastError] = useState();
+        <div>
+          <Label className="mb-1">Category</Label>
+          <Select {...register("category")} disabled={type !== "Expense"}>
+            <option value="">Select a category</option>
+            {categories.map((category) => (
+              <option key={category}>{category}</option>
+            ))}
+          </Select>
+          <FormError error={errors.category} />
+        </div>
 
-    const onSubmit = async (data) => {
-        setSaving(true);
+        <div>
+          <Label className="mb-1">Date</Label>
+          <Input {...register("created_at")} />
+          <FormError error={errors.created_at} />
+        </div>
 
-        try {
-            /*await fetch(`${process.env.NEXT_PUBLIC_API_URL}/transactions`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    ...data,
-                    created_at: new Date(data.created_at).toISOString()
-                })
-            });
+        <div>
+          <Label className="mb-1">Amount</Label>
+          <Input type="number" {...register("amount")} />
+          <FormError error={errors.amount} />
+        </div>
 
-            await purgeTransactionListCache();*/
-            await createTransaction(data);
-            router.push('/dashboard');
-        } catch (error) {
-            setLastError(error);
-        } finally {
-            setSaving(false);
-        }
-    }
+        <div className="col-span-1 md:col-span-2">
+          <Label className="mb-1">Description</Label>
+          <Input {...register("description")} />
+          <FormError error={errors.description} />
+        </div>
+      </div>
 
-    return (
-        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <Label className="mb-1">Type</Label>
-                    <Select {...register("type")}>
-                        {types.map((type) => {
-                            return <option key={type}>{type}</option>
-                        })}
-                    </Select>
-                    <FormError error={errors.type} />
-                </div>
-                <div>
-                    <Label className="mb-1">Category</Label>
-                    <Select {...register("category")}>
-                        {categories.map((category) => {
-                            return <option key={category}>{category}</option>
-                        })}
-                    </Select>
-                    <FormError error={errors.category} />
-                </div>
-                <div>
-                    <Label className="mb-1">Date</Label>
-                    <Input {...register("created_at")} />
-                    <FormError error={errors.created_at} />
-                </div>
-                <div>
-                    <Label className="mb-1">Amount</Label>
-                    <Input type="number" {...register("amount")} />
-                    <FormError error={errors.amount} />
-                </div>
-                <div className="col-span-1 md:col-span-2">
-                    <Label className="mb-1">Description</Label>
-                    <Input {...register("description")} />
-                    <FormError error={errors.description} />
-                </div>
-                <div className="md:col-span-2 flex justify-between">
-                    <div>
-                        {lastError && <FormError error={lastError} />}
-                    </div>
-                    <Button type="submit" disabled={isSaving}>Save</Button>
-                </div>
-            </div>
-        </form>)
+      <div className="flex justify-between items-center">
+        <div>{lastError && <FormError error={lastError} />}</div>
+        <Button type="submit" disabled={isSaving}>
+          Save
+        </Button>
+      </div>
+    </form>
+  );
 }
