@@ -1,7 +1,16 @@
-import BaseTrend from "@/components/trend";
-export default async function Trend({type}) {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/trends/${type}`);
-    const {amount, prevAmount} = await response.json();
+import BaseTrend from "@/components/trend"
+import { createClient } from "@/lib/supabase/server"
 
-    return (<BaseTrend type={type} amount={amount} prevAmount={prevAmount} />); 
+export default async function Trend({ type, range }) {
+  const supabase = await createClient()
+  let { data, error } = await supabase
+    .rpc('calculate_total', {
+      range_arg: range,
+      type_arg: type
+    })
+  if (error) throw new Error("Could not fetch the trend data")
+  
+  const amounts = data[0]
+
+  return <BaseTrend type={type} amount={amounts.current_amount} prevAmount={amounts.previous_amount} />
 }
