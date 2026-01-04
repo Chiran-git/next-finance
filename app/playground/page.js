@@ -3,7 +3,7 @@ import Input from "@/components/input";
 import Label from "@/components/label";
 import PageHeader from "@/components/page-header";
 import Select from "@/components/select";
-import Seperator from "@/components/seperator";
+import Separator from "@/components/separator";
 import Skeleton from "@/components/skeleton";
 import TransactionItem from "@/components/transaction-item";
 import TransactionSummaryItem from "@/components/transaction-summary-item";
@@ -28,7 +28,7 @@ export default function Page() {
 
             <div>
                 <h2 className="mb-4 text-lg font-mono">Trend</h2>
-                <Seperator />
+                <Separator />
                 <div className="flex space-x-8">
                     <Trend type="Income" amount={1000} prevAmount={900} />
                     <Trend type="Expense" amount={12000} prevAmount={9000} />
@@ -39,7 +39,7 @@ export default function Page() {
 
             <div>
                 <h2 className="mb-4 text-lg font-mono">Transaction</h2>
-                <Seperator />
+                <Separator />
                 <div>
                     <TransactionItem type="Income" description="Salary" amount={2000} />
                     <TransactionItem type="Expense" category="Food" description="Going out to eat" amount={29} />
@@ -50,10 +50,10 @@ export default function Page() {
 
             <div>
                 <h2 className="mb-4 text-lg font-mono">TransactionSummaryItem + Transaction</h2>
-                <Seperator />
+                <Separator />
                 <div className="space-y-4">
                     <TransactionSummaryItem date="2025-4-21" amount={21} />
-                    <Seperator />
+                    <Separator />
                     <TransactionItem type="Income" description="Salary" amount={2000} />
                     <TransactionItem type="Expense" category="Food" description="Going out to eat" amount={29} />
                     <TransactionItem type="Saving" description="For Children" amount={500} />
@@ -63,7 +63,7 @@ export default function Page() {
 
             <div>
                 <h2 className="mb-4 text-lg font-mono">Buttons</h2>
-                <Seperator />
+                <Separator />
                 <div className="space-x-4">
                     <Button>Hello</Button>
                     <Button variant="outline">Hello</Button>
@@ -78,7 +78,7 @@ export default function Page() {
 
             <div>
                 <h2 className="mb-4 text-lg font-mono">Forms</h2>
-                <Seperator />
+                <Separator />
                 <div className="grid grid-cols-2 gap-4">
                     <div>
                         <Label>Your name</Label>
@@ -104,7 +104,7 @@ export default function Page() {
 
                 <div>
                 <h2 className="mb-4 text-lg font-mono">Loading Skeleton</h2>
-                <Seperator />
+                <Separator />
                 <div className="space-y-8">
                     <div className="flex space-x-4">
                         <Skeleton />
