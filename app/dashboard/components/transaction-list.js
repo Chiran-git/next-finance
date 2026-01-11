@@ -6,7 +6,7 @@ import TransactionSummaryItem from "@/components/transaction-summary-item";
 import {groupAndSumTransactionsByDate} from "@/lib/utils";
 import Button from "@/components/button";
 import {useState} from "react";
-import fetchTransactions from "@/lib/actions";
+import { fetchTransactions } from "@/lib/actions";
 import {Loader} from "lucide-react";
 
 export default function TransactionList({range, initialTransactions}) {

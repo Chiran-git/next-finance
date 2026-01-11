@@ -1,4 +1,4 @@
-import fetchTransactions from "@/lib/actions";
+import {fetchTransactions} from "@/lib/actions";
 import TransactionList from "@/app/dashboard/components/transaction-list";
 
 export default async function TransactionListWrapper({range}) {
