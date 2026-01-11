@@ -16,17 +16,21 @@ export default function TransactionList({range, initialTransactions}) {
   const [loading, setLoading] = useState(false);
   const grouped = groupAndSumTransactionsByDate(transactions);
 
-  const handleClick = async (e) => {
+  const handleClick = async () => {
     setLoading(true);
     let nextTransactions = null;
     try {
-      nextTransactions = await fetchTransactions(range, offset, 10);
+      nextTransactions = await fetchTransactions(range, transactions.length, 10);
     } finally {
       setLoading(false);
     }
     setButtonHidden(!nextTransactions || nextTransactions.length === 0);
     setOffset(prevValue => prevValue + 10);
     setTransactions(prevTransactions => [...prevTransactions, ...nextTransactions]);
+  }
+
+  const handleRemoved = (id) => () => {
+    setTransactions(prevTransactions => [...prevTransactions].filter(t=>t.id !== id));
   }
 
   return (
@@ -38,7 +42,7 @@ export default function TransactionList({range, initialTransactions}) {
             <Separator />
             <div className="space-y-2 mt-2">
               {transactions.map((transaction) => (
-                <TransactionItem key={transaction.id} {...transaction} />
+                <TransactionItem key={transaction.id} {...transaction} onRemoved={handleRemoved(transaction.id)} />
               ))}
             </div>
           </div>
